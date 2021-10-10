@@ -1,6 +1,6 @@
 // compressor 데이터에 대한 정보 및 Shcema 설정
 const mongoose = require('mongoose');
-// mongoose.set('debug', true)
+mongoose.set('debug', true)
 
 // Schema 정보 입력
 const compSchema = new mongoose.Schema({
