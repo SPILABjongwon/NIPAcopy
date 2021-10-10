@@ -23,31 +23,37 @@ app.use(express.json());
 */
 app.use(bodyParser.text());
 
-// Web Server's PORT Number
-const PORT = 3000;
-
-
-// env 환경변수 안에 MONGO_URI 넣음
-const { MONGO_URI } = process.env;  
-
+// env 환경변수 안에 MONGO_URI, PORT 넣음
+const { MONGO_URI, PORT } = process.env;  
 // 환경변수에 MONGO_URI가 있음을 명시
-if (!MONGO_URI) console.error("DEV_MONGO_URI is required!!!");
+if (!MONGO_URI) console.error("MONGO_URI is required!!!");
+if (!PORT) console.error("MONGO_URI is required!!!");
 
 
 
 // 비동기 처리 : 몽고디비 연결 후 서버 접속
 const server = async() => {
-  // CONNECT to MongoDB
-  let mongodbConnection = await mongoose.connect(MONGO_URI,{useNewUrlParser: true, useUnifiedTopology: true})
-  console.log({mongodbConnection})    
+  try {
+    // env 환경변수 안에 MONGO_URI, PORT 넣음
+    const { MONGO_URI, PORT } = process.env;  
+    // 환경변수에 MONGO_URI가 있음을 명시
+    if (!MONGO_URI) throw new Error("MONGO_URI is required!!!");
+    if (!PORT) throw new Error("PORT is required!!!");
+    
+    // CONNECT to MongoDB
+    let mongodbConnection = await mongoose.connect(MONGO_URI,{useNewUrlParser: true, useUnifiedTopology: true})
+    console.log({mongodbConnection})    
 
-  // ROUTERS
-  app.use('/data/ai/rect', require('../routes/rect_api'));
-  app.use('/data/ai/comp', require('../routes/comp_api'));
+    // ROUTERS
+    app.use('/data/ai/rect', require('../routes/rect_api'));
+    app.use('/data/ai/comp', require('../routes/comp_api'));
 
-  // Web server listening on port
-  app.listen(PORT, () => console.log(`Server lisetening on port ${PORT}`));   
-
+    // Web server listening on port
+    app.listen(PORT, () => console.log(`Server lisetening on port ${PORT}`));   
+  
+  } catch(err) {
+    console.log(err);
+  }
 }
 server();
 
