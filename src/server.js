@@ -31,7 +31,8 @@ const PORT = 3000;
 const { MONGO_URI } = process.env;  
 
 // 환경변수에 MONGO_URI가 있음을 명시
-if (!MONGO_URI) console.error("MONGO_URI is required!!!")
+if (!MONGO_URI) console.error("DEV_MONGO_URI is required!!!");
+
 
 
 // 비동기 처리 : 몽고디비 연결 후 서버 접속
