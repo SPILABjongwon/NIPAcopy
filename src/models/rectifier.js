@@ -17,13 +17,13 @@ const rectIdList = ['364', '365', '366']
 
 let rectifier = {}
 
-// rectifierId 마다 collection에 연결하는 객체 생성 및, 객체 비구조화 진행
+// rectifierId 마다 collection에 연결하는 객체 생성
 rectIdList.forEach((id)=>{
   let model = mongoose.model(`rectifier${id}`, rectSchema, `rectifier${id}`)
   rectifier[`rectifier${id}`] = model;
 })
 
-// rectifierId를 입력하면, 위에서 만든 모델을 반환하는 함수 생성
+// rectifierId를 입력하면, 위에서 만든 모델을 반환하는 함수 생성(객체 비구조화 진행)
 function getRectifierModel(rectId){
   return rectifier[`rectifier${rectId}`]
 }
