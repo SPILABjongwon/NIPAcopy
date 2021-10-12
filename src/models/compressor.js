@@ -11,21 +11,23 @@ const compSchema = new mongoose.Schema({
     anomaly : {type : Number}
     }
 );
-
+// compressorId 정보 담기
 const compIdList = ['364','365','366']
 
 let compressor = {}
 
+// compressorId 마다 collection에 연결하는 객체 생성 및, 객체 비구조화 진행
 compIdList.forEach((id)=>{
   let model = mongoose.model(`compressor${id}`, compSchema, `compressor${id}`);
   compressor[`compressor${id}`] = model;
 })
 
+// compressorId를 입력하면, 위에서 만든 모델을 반환하는 함수 생성
 function getCompressorModel(compId){
     return compressor[`compressor${compId}`]
 }
 
-
+// startTime(require), endTime(requre)으로 데이터 조회할 수 있도록 파라미터 추가.
 exports.getCompressorByTime = (req,res) =>{
     const {compId} = req.params;
     const startTime = req.query.startTime;

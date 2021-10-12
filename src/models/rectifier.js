@@ -12,19 +12,23 @@ const rectSchema = new mongoose.Schema({
   }
 );
 
+// rectifierId 정보 담기
 const rectIdList = ['364', '365', '366']
 
 let rectifier = {}
 
+// rectifierId 마다 collection에 연결하는 객체 생성 및, 객체 비구조화 진행
 rectIdList.forEach((id)=>{
   let model = mongoose.model(`rectifier${id}`, rectSchema, `rectifier${id}`)
   rectifier[`rectifier${id}`] = model;
 })
 
+// rectifierId를 입력하면, 위에서 만든 모델을 반환하는 함수 생성
 function getRectifierModel(rectId){
   return rectifier[`rectifier${rectId}`]
 }
 
+// startTime(require), endTime(requre)으로 데이터 조회할 수 있도록 파라미터 추가.
 exports.getRectifierByTime = (req,res) =>{
   const {rectId} = req.params;
   const startTime = req.query.startTime;
